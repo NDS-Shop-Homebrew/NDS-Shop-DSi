@@ -36,7 +36,7 @@ clean.bat
 
 #### Linux / macOS / WSL
 
-**Option A — CLI bootstrap (recommandé pour CI / headless)**
+**Option A — CLI bootstrap (recommended for CI / headless)**
 
 ```bash
 # Install Wonderful Toolchain
@@ -52,20 +52,20 @@ wf-pacman -S --noconfirm blocksds-toolchain blocksds-libcurl blocksds-mbedtls to
 sudo ln -s /opt/wonderful/thirdparty/blocksds /opt/blocksds
 ```
 
-**Option B — Installateur graphique (GUI)**
+**Option B — Graphical installer (GUI)**
 
 ```bash
-# Télécharger et lancer l'installeur
+# Download and run the installer
 curl -sL https://wonderful.asie.pl/install.sh -o wf-installer.sh
 chmod +x wf-installer.sh
 ./wf-installer.sh
-# Suivre les instructions à l'écran (sélectionner BlocksDS, toolchain ARM, etc.)
+# Follow on-screen instructions (select BlocksDS, ARM toolchain, etc.)
 
-# Puis charger l'environnement
+# Then load the environment
 source ~/.wonderful/env
 ```
 
-**Build (commun aux deux options)**
+**Build (common to both options)**
 
 ```bash
 source /opt/wonderful/bin/wf-env -a
