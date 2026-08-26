@@ -33,11 +33,14 @@ jobs:
           echo "WONDERFUL_TOOLCHAIN=/opt/wonderful" >> $GITHUB_ENV
           echo "/opt/wonderful/bin" >> $GITHUB_PATH
 
-      - name: Install Toolchain Packages
+      - name: Setup BlocksDS Repository and Toolchain
         run: |
+          wf-config repo enable blocksds
           wf-pacman -Syu --noconfirm
-          wf-pacman -S --noconfirm toolchain-gcc-arm-none-eabi target-arm-none-eabi-blocksds target-arm-none-eabi-libnds || \
-          wf-pacman -S --noconfirm $(wf-pacman -Slq | grep -E '^(toolchain|target)-(.*nds|.*dsi|.*arm-none-eabi)')
+
+          wf-pacman -S --noconfirm blocksds-toolchain
+
+          sudo ln -s /opt/wonderful/thirdparty/blocksds /opt/blocksds
 
       - name: Build DSi
         run: |
