@@ -19,23 +19,32 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+
       - name: Fix submodule
         run: |
           git submodule update --init --recursive
+
       - name: Install Wonderful Toolchain
-        env:
-          TERM: dumb
         run: |
-          curl -sL https://wonderful.asie.pl/bootstrap/wf-installer.sh | bash -s -- --no-interactive
-          source ~/.wonderful/env
-          export PATH=$PATH:~/.wonderful/bin
+          sudo mkdir -p /opt/wonderful
+          sudo chown -R $USER:$USER /opt/wonderful
+          curl -fL https://wonderful.asie.pl/bootstrap/wf-bootstrap-x86_64.tar.gz | tar -xz -C /opt/wonderful
+          /opt/wonderful/bin/wf-pacman -Syu --noconfirm wf-tools
+          echo "WONDERFUL_TOOLCHAIN=/opt/wonderful">> $GITHUB_ENV
+          echo "/opt/wonderful/bin" >> $GITHUB_PATH
+
+      - name: Install Toolchain Packages
+        run: |
+          wf-pacman -S --noconfirm target-nativetools toolchain-arm-none-eabi target-nds target-dsi
+
       - name: Build DSi
         run: |
-          source ~/.wonderful/env
+          source /opt/wonderful/bin/wf-env -a
           python build.py release
           mkdir -p ~/artifacts
-          cp release/NDS-Shop.nds ~/artifacts
-          cp release/version.txt ~/artifacts
+          cp release/NDS-Shop.nds ~/artifacts/
+          cp release/version.txt ~/artifacts/
+
       - name: Publish build to GH Actions
         uses: actions/upload-artifact@v4
         with:
@@ -55,6 +64,7 @@ jobs:
         with:
           name: build
           path: build
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
