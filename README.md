@@ -56,7 +56,7 @@ sudo ln -s /opt/wonderful/thirdparty/blocksds /opt/blocksds
 
 ```bash
 # Download and run the installer
-curl -sL https://wonderful.asie.pl/install.sh -o wf-installer.sh
+curl -sL https://wonderful.asie.pl/bootstrap/wf-installer.sh -o wf-installer.sh
 chmod +x wf-installer.sh
 ./wf-installer.sh
 # Follow on-screen instructions (select BlocksDS, ARM toolchain, etc.)
