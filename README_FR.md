@@ -36,12 +36,39 @@ clean.bat
 
 #### Linux / macOS / WSL
 
+**Option A — Bootstrap CLI (recommandé pour CI / headless)**
+
 ```bash
 # Installer Wonderful Toolchain
-curl -sL https://wonderful.asie.pl/bootstrap/wf-installer.sh | bash -s -- --no-interactive
-source ~/.wonderful/env
+sudo mkdir -p /opt/wonderful
+sudo chown -R $USER:$USER /opt/wonderful
+curl -fL https://wonderful.asie.pl/bootstrap/wf-bootstrap-x86_64.tar.gz | tar -xz -C /opt/wonderful
+/opt/wonderful/bin/wf-pacman -Syu --noconfirm wf-tools
 
-# Compiler
+# Configurer le dépôt BlocksDS et la toolchain
+wf-config repo enable blocksds
+wf-pacman -Syu --noconfirm
+wf-pacman -S --noconfirm blocksds-toolchain blocksds-libcurl blocksds-mbedtls toolchain-gcc-arm-none-eabi-extra toolchain-gcc-arm-none-eabi-zlib
+sudo ln -s /opt/wonderful/thirdparty/blocksds /opt/blocksds
+```
+
+**Option B — Installeur graphique (GUI)**
+
+```bash
+# Télécharger et lancer l'installeur
+curl -sL https://wonderful.asie.pl/install.sh -o wf-installer.sh
+chmod +x wf-installer.sh
+./wf-installer.sh
+# Suivre les instructions à l'écran (sélectionner BlocksDS, toolchain ARM, etc.)
+
+# Puis charger l'environnement
+source ~/.wonderful/env
+```
+
+**Compilation (commun aux deux options)**
+
+```bash
+source /opt/wonderful/bin/wf-env -a
 python build.py
 
 # Build release (sortie dans release/)
