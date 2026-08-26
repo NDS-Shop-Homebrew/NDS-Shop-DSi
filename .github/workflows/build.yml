@@ -37,9 +37,8 @@ jobs:
         run: |
           wf-config repo enable blocksds
           wf-pacman -Syu --noconfirm
-
-          wf-pacman -S --noconfirm blocksds-toolchain
-
+          # Installation de la toolchain + dépendances externes requises (libcurl, zlib)
+          wf-pacman -S --noconfirm blocksds-toolchain blocksds-libcurl blocksds-zlib
           sudo ln -s /opt/wonderful/thirdparty/blocksds /opt/blocksds
 
       - name: Build DSi
