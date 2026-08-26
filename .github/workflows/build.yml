@@ -30,12 +30,14 @@ jobs:
           sudo chown -R $USER:$USER /opt/wonderful
           curl -fL https://wonderful.asie.pl/bootstrap/wf-bootstrap-x86_64.tar.gz | tar -xz -C /opt/wonderful
           /opt/wonderful/bin/wf-pacman -Syu --noconfirm wf-tools
-          echo "WONDERFUL_TOOLCHAIN=/opt/wonderful">> $GITHUB_ENV
+          echo "WONDERFUL_TOOLCHAIN=/opt/wonderful" >> $GITHUB_ENV
           echo "/opt/wonderful/bin" >> $GITHUB_PATH
 
       - name: Install Toolchain Packages
         run: |
-          wf-pacman -S --noconfirm target-nativetools toolchain-arm-none-eabi target-nds target-dsi
+          wf-pacman -Syu --noconfirm
+          wf-pacman -S --noconfirm toolchain-gcc-arm-none-eabi target-arm-none-eabi-blocksds target-arm-none-eabi-libnds || \
+          wf-pacman -S --noconfirm $(wf-pacman -Slq | grep -E '^(toolchain|target)-(.*nds|.*dsi|.*arm-none-eabi)')
 
       - name: Build DSi
         run: |
