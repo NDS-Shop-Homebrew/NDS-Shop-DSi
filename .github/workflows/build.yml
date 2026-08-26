@@ -20,7 +20,7 @@ jobs:
           submodules: recursive
       - name: Install Wonderful Toolchain
         run: |
-          curl -sL https://wonderful.asie.pl/install.sh | bash -s -- --no-interactive
+          curl -sL https://wonderful.asie.pl/bootstrap/wf-installer.sh | bash -s -- --no-interactive
           source ~/.wonderful/env
           export PATH=$PATH:~/.wonderful/bin
       - name: Build DSi

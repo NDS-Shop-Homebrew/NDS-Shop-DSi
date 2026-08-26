@@ -38,7 +38,7 @@ clean.bat
 
 ```bash
 # Installer Wonderful Toolchain
-curl -sL https://wonderful.asie.pl/install.sh | bash -s -- --no-interactive
+curl -sL https://wonderful.asie.pl/bootstrap/wf-installer.sh | bash -s -- --no-interactive
 source ~/.wonderful/env
 
 # Compiler
